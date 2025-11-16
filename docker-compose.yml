@@ -1,0 +1,33 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: pguser
+      POSTGRES_PASSWORD: pgpass
+      POSTGRES_DB: prdb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "9999:9999"
+    networks:
+      - pr-net
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://pguser:pgpass@db:5432/prdb?sslmode=disable
+      PORT: "8080"
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    networks:
+      - pr-net
+
+volumes:
+  db_data:
+
+networks:
+  pr-net:
+    external: true
