@@ -5,7 +5,7 @@ RUN apk add --no-cache git build-base
 WORKDIR /src
 COPY . .
 RUN go mod download
-RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o /app ./cmd/server
+RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o /app ./src/cmd/server
 
 FROM alpine:3.18
 RUN apk add --no-cache ca-certificates
